@@ -22,6 +22,10 @@ namespace SharedDiscovery.Tests
             Run("Snapshot removes duplicates", SnapshotRemovesDuplicates);
             Run("Corrupt persistence file loads empty", CorruptPersistenceLoadsEmpty);
             Run("Validation rejects invalid messages", ValidationRejectsInvalidMessages);
+            Run("Remote client discovery applies to host once", RemoteClientDiscoveryAppliesToHostOnce);
+            Run("Duplicate remote discovery does not reapply", DuplicateRemoteDiscoveryDoesNotReapply);
+            Run("Host-originated discovery is not reapplied", HostOriginatedDiscoveryIsNotReapplied);
+            Run("Host apply decision does not create feedback loop", HostApplyDecisionDoesNotCreateFeedbackLoop);
 
             Console.WriteLine($"{_passed} passed, {_failed} failed");
             return _failed == 0 ? 0 : 1;
@@ -97,6 +101,26 @@ namespace SharedDiscovery.Tests
             Assert(!DiscoveryValidator.IsValidItemId("Copper Ore"), "Spaces should be invalid.");
             Assert(!DiscoveryValidator.IsValidItemId(new string('A', DiscoveryValidator.MaxItemIdLength + 1)), "Overlong IDs should be invalid.");
             Assert(DiscoveryValidator.IsValidItemId("Copper_Ore-01.Modded"), "Stable prefab-like IDs should be valid.");
+        }
+
+        private static void RemoteClientDiscoveryAppliesToHostOnce()
+        {
+            Assert(DiscoveryOriginPolicy.ShouldApplyToHost(42L, isNewDiscovery: true), "A new discovery from a remote client should apply to the host.");
+        }
+
+        private static void DuplicateRemoteDiscoveryDoesNotReapply()
+        {
+            Assert(!DiscoveryOriginPolicy.ShouldApplyToHost(42L, isNewDiscovery: false), "A duplicate discovery should not trigger another host apply.");
+        }
+
+        private static void HostOriginatedDiscoveryIsNotReapplied()
+        {
+            Assert(!DiscoveryOriginPolicy.ShouldApplyToHost(0L, isNewDiscovery: true), "A host-originated discovery should not be reapplied locally.");
+        }
+
+        private static void HostApplyDecisionDoesNotCreateFeedbackLoop()
+        {
+            Assert(!DiscoveryOriginPolicy.ShouldApplyToHost(0L, isNewDiscovery: false), "A local reapplication must not become another client-originated submission.");
         }
 
         private static void Run(string name, Action test)

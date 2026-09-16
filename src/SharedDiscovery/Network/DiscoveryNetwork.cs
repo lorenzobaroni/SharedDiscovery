@@ -134,6 +134,12 @@ namespace SharedDiscovery.Network
 
             if (_discovery.TryAddServerDiscovery(itemId))
             {
+                if (DiscoveryOriginPolicy.ShouldApplyToHost(sender, isNewDiscovery: true))
+                {
+                    Plugin.DebugLog($"Applying client-originated discovery '{itemId}' to host local player.");
+                    _vanillaDiscovery.ApplyOrQueue(itemId);
+                }
+
                 BroadcastDiscovery(itemId);
             }
         }
