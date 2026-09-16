@@ -53,8 +53,17 @@ function Assert-ZipContents {
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     $archive = [System.IO.Compression.ZipFile]::OpenRead($Path)
     try {
-        $actual = @($archive.Entries | ForEach-Object { $_.FullName.TrimEnd('/') } | Sort-Object)
-        $expectedSorted = @($Expected | Sort-Object)
+        $actual = @(
+    	$archive.Entries |
+    	ForEach-Object { $_.FullName.Replace('\', '/').TrimEnd('/') } |
+    	Sort-Object
+	)
+
+	$expectedSorted = @(
+    	$Expected |
+    	ForEach-Object { $_.Replace('\', '/').TrimEnd('/') } |
+    	Sort-Object
+	)
         if (($actual -join "`n") -ne ($expectedSorted -join "`n")) {
             throw "ZIP contents do not match the expected root layout.`nActual:`n$($actual -join "`n")`nExpected:`n$($expectedSorted -join "`n")"
         }
