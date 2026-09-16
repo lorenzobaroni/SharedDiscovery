@@ -22,7 +22,7 @@ namespace SharedDiscovery.Discovery
             }
 
             long uid = znet.GetWorldUID();
-            if (uid <= 0)
+            if (uid == 0)
             {
                 return false;
             }

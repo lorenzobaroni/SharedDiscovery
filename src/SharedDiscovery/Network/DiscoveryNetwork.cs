@@ -203,7 +203,7 @@ namespace SharedDiscovery.Network
             List<ZNetPeer> remotePeers = new List<ZNetPeer>();
             foreach (ZNetPeer peer in ZNet.instance.GetConnectedPeers())
             {
-                if (peer != null && !peer.m_server && peer.m_uid > 0L)
+                if (peer != null && !peer.m_server && peer.m_uid != 0L)
                 {
                     remotePeers.Add(peer);
                 }
@@ -274,7 +274,7 @@ namespace SharedDiscovery.Network
 
         private static bool IsValidClientSender(long sender)
         {
-            if (sender <= 0L || ZRoutedRpc.instance == null)
+            if (sender == 0L || ZRoutedRpc.instance == null)
             {
                 return false;
             }

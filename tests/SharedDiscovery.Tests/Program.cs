@@ -26,6 +26,7 @@ namespace SharedDiscovery.Tests
             Run("Duplicate remote discovery does not reapply", DuplicateRemoteDiscoveryDoesNotReapply);
             Run("Host-originated discovery is not reapplied", HostOriginatedDiscoveryIsNotReapplied);
             Run("Host apply decision does not create feedback loop", HostApplyDecisionDoesNotCreateFeedbackLoop);
+            Run("Negative remote sender applies to host", NegativeRemoteSenderAppliesToHost);
 
             Console.WriteLine($"{_passed} passed, {_failed} failed");
             return _failed == 0 ? 0 : 1;
@@ -121,6 +122,11 @@ namespace SharedDiscovery.Tests
         private static void HostApplyDecisionDoesNotCreateFeedbackLoop()
         {
             Assert(!DiscoveryOriginPolicy.ShouldApplyToHost(0L, isNewDiscovery: false), "A local reapplication must not become another client-originated submission.");
+        }
+
+        private static void NegativeRemoteSenderAppliesToHost()
+        {
+            Assert(DiscoveryOriginPolicy.ShouldApplyToHost(-488500443L, isNewDiscovery: true), "A connected negative routed sender should apply to the host.");
         }
 
         private static void Run(string name, Action test)
