@@ -1,0 +1,9 @@
+{
+  "name": "SharedDiscovery",
+  "version_number": "0.1.0",
+  "website_url": "",
+  "description": "Shares item and material discoveries between players in the same Valheim world with multiplayer synchronization and per-world persistence.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2350"
+  ]
+}
