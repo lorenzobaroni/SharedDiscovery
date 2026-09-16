@@ -1,0 +1,16 @@
+bin/
+obj/
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.csproj.user
+Environment.props
+artifacts/
+dist/
+package-temp/
+*.zip
+local-libs/
+*.log
+*.tmp

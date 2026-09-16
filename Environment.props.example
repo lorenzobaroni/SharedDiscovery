@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <VALHEIM_INSTALL>C:\Path\To\Steam\steamapps\common\Valheim</VALHEIM_INSTALL>
+    <BEPINEX_PATH>C:\Path\To\r2modmanPlus-local\Valheim\profiles\SharedDiscoveryDev\BepInEx</BEPINEX_PATH>
+    <MOD_DEPLOYPATH>$(BEPINEX_PATH)\plugins\SharedDiscovery</MOD_DEPLOYPATH>
+  </PropertyGroup>
+</Project>

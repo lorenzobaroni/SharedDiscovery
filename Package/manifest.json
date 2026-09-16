@@ -1,0 +1,9 @@
+{
+  "name": "SharedDiscovery",
+  "version_number": "0.1.0",
+  "website_url": "https://example.com/SharedDiscovery",
+  "description": "Shares Valheim item discoveries per world while preserving vanilla recipe unlocks and notifications.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2350"
+  ]
+}
